@@ -1,0 +1,28 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "Api for web movies",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js ",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bachoilabach/NodeJS_Web_Movies.git"
+  },
+  "keywords": [
+    "nodejs"
+  ],
+  "author": "Trần Việt Bách",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bachoilabach/NodeJS_Web_Movies/issues"
+  },
+  "homepage": "https://github.com/bachoilabach/NodeJS_Web_Movies#readme",
+  "dependencies": {
+    "babel": "^6.23.0",
+    "express": "^4.18.2",
+    "nodemon": "^3.0.2"
+  }
+}
