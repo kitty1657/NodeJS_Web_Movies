@@ -3,7 +3,6 @@ Users:{
     email,
     password,
     fullname,
-    address,
     phoneNumber,
     gender,
     roleid *
@@ -33,9 +32,11 @@ Actors: {
     BirthDate,
     Nationality,
     Biography
-    ImangeURL 
+    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa 
 }
-
+'
+a
+\ss \\
 Directors: {
     DirectorID INT,
     Name,
