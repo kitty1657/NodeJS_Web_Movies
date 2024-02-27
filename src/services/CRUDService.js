@@ -9,12 +9,12 @@ let createNewUser = async (data) => {
 		try {
 			const hashPasswordFromLib = await hashUserPassword(data.Password);
 			await db.User.create({
-				Email: data.Email,
-				Password: hashPasswordFromLib,
-				FullName: data.FullName,
-				Gender: data.Gender === "1" ? true : false,
-				PhoneNumber: data.PhoneNumber,
-				RoleID: data.RoleID,
+				email: data.Email,
+				password: hashPasswordFromLib,
+				fullname: data.FullName,
+				gender: data.Gender === "1" ? true : false,
+				phonenumber: data.PhoneNumber,
+				roleid: data.RoleID,
 			});
 			resolve("Oke");
 		} catch (error) {

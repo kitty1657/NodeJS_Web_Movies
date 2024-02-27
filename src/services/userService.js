@@ -9,9 +9,9 @@ const handleUserLogin = (email, password) => {
 			const userData = {};
 			if (userExist) {
 				const user = await db.User.findOne({
-					where: { Email: email },
+					where: { email: email },
 					raw: true,
-					attributes: ['Email','Password']
+					attributes: ['email','password','roleid']
 				}); 
 
 				if (user) {
@@ -45,7 +45,7 @@ const checkUserEmail = (userEmail) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const user = await db.User.findOne({
-				where: { Email: userEmail },
+				where: { email: userEmail },
 			});
 			if (user) {
 				resolve(true);
