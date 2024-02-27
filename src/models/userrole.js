@@ -7,13 +7,7 @@ module.exports = (sequelize, DataTypes) => {
 		 * This method is not a part of Sequelize lifecycle.
 		 * The `models/index` file will call this method automatically.
 		 */
-		static associate(models) {
-			// * Mối quan hệ 1 - 1 giữa user và user role 
-			UserRole.belongsTo(models.User,{
-				foreignKey: 'roleID',
-				as: 'roleData'
-			});
-		}
+		static associate(models) {}
 	}
 	UserRole.init(
 		{
@@ -23,7 +17,6 @@ module.exports = (sequelize, DataTypes) => {
 			sequelize,
 			modelName: "userrole",
 			tableName: "userrole",
-
 		}
 	);
 	return UserRole;

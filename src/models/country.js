@@ -3,10 +3,7 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
 	class Country extends Model {
 		static associate(models) {
-			Country.belongsTo(models.Movie,{
-				foreignKey: 'countryID',
-				as: 'countryData'
-			})
+			
 		}
 	}
 	Country.init(

@@ -3,10 +3,7 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
 	class Actor extends Model {
 		static associate(models) {
-			Actor.belongsToMany(models.MovieActor,{
-				through: 'movieactor',
-				foreignKey:'actorID'
-			})
+			
 		}
 	}
 	Actor.init(
