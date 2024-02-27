@@ -2,38 +2,35 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable("Movie", {
-			MovieID: {
+		await queryInterface.createTable("movie", {
+			movieID: {
 				allowNull: false,
 				autoIncrement: true,
 				primaryKey: true,
 				type: Sequelize.INTEGER,
 			},
-			Title: {
+			title: {
 				type: Sequelize.STRING,
 			},
-			GenreID: {
+			ratingID: {
 				type: Sequelize.INTEGER,
 			},
-			Rating: {
-				type: Sequelize.FLOAT,
-			},
-			CountryID: {
+			countryID: {
 				type: Sequelize.INTEGER,
 			},
-			Release: {
+			release: {
 				type: Sequelize.DATEONLY,
 			},
-			Duration: {
+			duration: {
 				type: Sequelize.INTEGER,
 			},
-			Thumbnail: {
+			thumbnail: {
 				type: Sequelize.STRING,
 			},
-			VideoURL: {
+			videoURL: {
 				type: Sequelize.STRING,
 			},
-			Html: {
+			html: {
                 type: Sequelize.STRING
             },
 			createdAt: {
@@ -45,8 +42,10 @@ module.exports = {
 				type: Sequelize.DATE,
 			},
 		});
+		
 	},
 	async down(queryInterface, Sequelize) {
-		await queryInterface.dropTable("Movie");
+		await queryInterface.dropTable("movie");
+		
 	},
 };

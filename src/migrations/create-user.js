@@ -2,27 +2,34 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable("Comment", {
-			CommentID: {
+		// Tạo bảng User
+		await queryInterface.createTable("user", {
+			userID: {
 				allowNull: false,
 				autoIncrement: true,
 				primaryKey: true,
 				type: Sequelize.INTEGER,
 			},
-			MovieID: {
-				type: Sequelize.INTEGER,
-			},
-			UserID: {
-				type: Sequelize.INTEGER,
-			},
-            UserName: {
+			email: {
 				type: Sequelize.STRING,
 			},
-			Content: {
+			password: {
 				type: Sequelize.STRING,
 			},
-			CommentDate: {
-				type: Sequelize.DATE,
+			fullname: {
+				type: Sequelize.STRING,
+			},
+			address: {
+				type: Sequelize.STRING,
+			},
+			gender: {
+				type: Sequelize.BOOLEAN,
+			},
+			phonenumber: {
+				type: Sequelize.STRING,
+			},
+			roleID: {
+				type: Sequelize.INTEGER,
 			},
 			createdAt: {
 				allowNull: false,
@@ -35,6 +42,7 @@ module.exports = {
 		});
 	},
 	async down(queryInterface, Sequelize) {
-		await queryInterface.dropTable("Comment");
+		// Xóa bảng User và khóa ngoại
+		await queryInterface.dropTable("user");
 	},
 };

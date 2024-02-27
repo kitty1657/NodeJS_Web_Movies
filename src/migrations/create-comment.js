@@ -2,16 +2,28 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable("Country", {
-			CountryId: {
+		await queryInterface.createTable("comment", {
+			commentID: {
 				allowNull: false,
 				autoIncrement: true,
 				primaryKey: true,
 				type: Sequelize.INTEGER,
 			},
-			Country: {
-                type: Sequelize.STRING
-            },
+			movieID: {
+				type: Sequelize.INTEGER,
+			},
+			userID: {
+				type: Sequelize.INTEGER,
+			},
+            userName: {
+				type: Sequelize.STRING,
+			},
+			content: {
+				type: Sequelize.STRING,
+			},
+			commentDate: {
+				type: Sequelize.DATE,
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE,
@@ -23,6 +35,6 @@ module.exports = {
 		});
 	},
 	async down(queryInterface, Sequelize) {
-		await queryInterface.dropTable("Country");
+		await queryInterface.dropTable("comment");
 	},
 };
