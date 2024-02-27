@@ -6,15 +6,16 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	Comment.init(
 		{
-            MovieID: DataTypes.INTEGER,
-            UserID: DataTypes.INTEGER,
-			UserName: DataTypes.STRING,
-			Content: DataTypes.STRING,
-			CommentDate: DataTypes.DATE
+            movieID: DataTypes.INTEGER,
+            userID: DataTypes.INTEGER,
+			userName: DataTypes.STRING,
+			content: DataTypes.STRING,
+			commentdDate: DataTypes.DATE
         },
 		{
 			sequelize,
-			modelName: "Comment",
+			modelName: "comment",
+			tableName: 'comment'
 		}
 	);
 	return Comment;

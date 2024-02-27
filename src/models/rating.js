@@ -2,17 +2,24 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
 	class Rating extends Model {
-		static associate(models) {}
+		static associate(models) {
+			// * Mối quan hệ 1 - 1 giữa movie và rating
+			Rating.belongsTo(models.Movie, {
+				foreignKey: 'movieID', 
+				as: 'movieRating'
+			});
+		}
 	}
 	Rating.init(
 		{
-            MovieID: DataTypes.INTEGER,
-            Rating: DataTypes.FLOAT,
-            RatingDate: DataTypes.DATEONLY
+            movieID: DataTypes.INTEGER,
+            rating: DataTypes.FLOAT,
+            ratingdate: DataTypes.DATEONLY
         },
 		{
 			sequelize,
-			modelName: "Rating",
+			modelName: "rating",
+			tableName: 'rating'
 		}
 	);
 	return Rating;

@@ -2,19 +2,24 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
 	class Director extends Model {
-		static associate(models) {}
+		static associate(models) {
+			Director.hasMany(models.MovieDirector,{
+				foreignKey:'directorID'
+			})
+		}
 	}
 	Director.init(
 		{
-            Name: DataTypes.STRING,
-            BirthDate: DataTypes.DATEONLY,
-            Nationality: DataTypes.STRING,
-            Biography: DataTypes.STRING,
-            ImageURL: DataTypes.STRING
+            name: DataTypes.STRING,
+            birthdate: DataTypes.DATEONLY,
+            nationality: DataTypes.STRING,
+            biography: DataTypes.STRING,
+            imageURL: DataTypes.STRING
         },
 		{
 			sequelize,
-			modelName: "Director",
+			modelName: "director",
+			tableName: 'director'
 		}
 	);
 	return Director;

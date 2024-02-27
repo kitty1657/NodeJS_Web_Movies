@@ -2,15 +2,21 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
 	class Country extends Model {
-		static associate(models) {}
+		static associate(models) {
+			Country.belongsTo(models.Movie,{
+				foreignKey: 'countryID',
+				as: 'countryData'
+			})
+		}
 	}
 	Country.init(
 		{
-            CountryName: DataTypes.STRING
+            countryName: DataTypes.STRING
         },
 		{
 			sequelize,
-			modelName: "Country",
+			modelName: "country",
+			tableName: 'country'
 		}
 	);
 	return Country;

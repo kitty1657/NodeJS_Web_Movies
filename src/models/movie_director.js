@@ -2,16 +2,24 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
 	class MovieDirector extends Model {
-		static associate(models) {}
+		static associate(models) {
+			MovieDirector.belongsTo(models.Movie,{
+				foreignKey:'movieID'
+			})
+			MovieDirector.belongsTo(models.Director,{
+				foreignKey: 'directorID'
+			})
+		}
 	}
 	MovieDirector.init(
 		{
-            MovieID: DataTypes.INTEGER,
-            DirectorID: DataTypes.INTEGER
+            movieID: DataTypes.INTEGER,
+            directorID: DataTypes.INTEGER
         },
 		{
 			sequelize,
-			modelName: "MovieDirector",
+			modelName: "moviedirector",
+			tableName: 'moviedirector'
 		}
 	);
 	return MovieDirector;

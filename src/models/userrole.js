@@ -8,7 +8,11 @@ module.exports = (sequelize, DataTypes) => {
 		 * The `models/index` file will call this method automatically.
 		 */
 		static associate(models) {
-			// define association here
+			// * Mối quan hệ 1 - 1 giữa user và user role 
+			UserRole.belongsTo(models.User,{
+				foreignKey: 'roleID',
+				as: 'roleData'
+			});
 		}
 	}
 	UserRole.init(
@@ -17,7 +21,9 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		{
 			sequelize,
-			modelName: "UserRole",
+			modelName: "userrole",
+			tableName: "userrole",
+
 		}
 	);
 	return UserRole;

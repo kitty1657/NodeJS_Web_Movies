@@ -2,19 +2,25 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
 	class Actor extends Model {
-		static associate(models) {}
+		static associate(models) {
+			Actor.belongsToMany(models.MovieActor,{
+				through: 'movieactor',
+				foreignKey:'actorID'
+			})
+		}
 	}
 	Actor.init(
 		{
-            Name: DataTypes.STRING,
-            BirthDate: DataTypes.DATEONLY,
-            Nationality: DataTypes.STRING,
-            Biography: DataTypes.STRING,
-            ImageURL: DataTypes.STRING
+            name: DataTypes.STRING,
+            birthdate: DataTypes.DATEONLY,
+            nationality: DataTypes.STRING,
+            biography: DataTypes.STRING,
+            imageURL: DataTypes.STRING
         },
 		{
 			sequelize,
-			modelName: "Actor",
+			modelName: "actor",
+			tableName: 'actor'
 		}
 	);
 	return Actor;
