@@ -34,13 +34,13 @@
 			</tr>
 			<% for(var i = 0;i < data.length; i++) { %>
                 <tr>
-                    <td><%= data[i].Email %></td>
-                    <td><%= data[i].Password %></td>
-                    <td><%= data[i]. FullName %></td>
-                    <td><%= data[i].PhoneNumber %></td>
+                    <td><%= data[i].email %></td>
+                    <td><%= data[i].password %></td>
+                    <td><%= data[i]. fullName %></td>
+                    <td><%= data[i].phoneNumber %></td>
 					<td style="justify-content: space-around; display: flex;">
-						<a href="/edit-user?id=<%= data[i].UserID %>"><button type="submit">Edit</button></a>
-						<a href="/delete-crud?id=<%= data[i].UserID %>"><button type="submit">Del</button></a>
+						<a href="/edit-user?id=<%= data[i].userID %>"><button type="submit">Edit</button></a>
+						<a href="/delete-crud?id=<%= data[i].userID %>"><button type="submit">Del</button></a>
 					</td>
                 </tr>
 				<% } %>

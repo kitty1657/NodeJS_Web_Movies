@@ -1,9 +1,10 @@
 import db from '../models/index';
 import userService from '../services/userService';
+
 const handleLogin = async (req,res)=>{
-    const email = req.body.Email
+    const email = req.body.email
     console.log(email)
-    const password = req.body.Password
+    const password = req.body.password
     console.log(password)
     console.log(req.body)
     if(!email || !password){
@@ -24,6 +25,26 @@ const handleLogin = async (req,res)=>{
     })
 }
 
+const handleGetAllUsers = async (req,res)=>{
+    let id = req.body.id
+
+    if(!id){
+        return res.status(200).json({
+            errCode: 1,
+            errMessage: "Missing parameters",
+            users:[]
+        })
+    }
+
+    let users = await userService.getAllUsers(id)
+
+    return res.status(200).json({
+        errCode: 0,
+        users
+    })
+}
+
 module.exports = {
-    handleLogin: handleLogin
+    handleLogin: handleLogin,
+    handleGetAllUsers: handleGetAllUsers
 }

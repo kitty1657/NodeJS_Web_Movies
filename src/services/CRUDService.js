@@ -7,14 +7,14 @@ let createNewUser = async (data) => {
 	console.log(data);
 	return new Promise(async (resolve, reject) => {
 		try {
-			const hashPasswordFromLib = await hashUserPassword(data.Password);
-			await db.User.create({
-				email: data.Email,
+			const hashPasswordFromLib = await hashUserPassword(data.password);
+			await db.user.create({
+				email: data.email,
 				password: hashPasswordFromLib,
-				fullname: data.FullName,
-				gender: data.Gender === "1" ? true : false,
-				phonenumber: data.PhoneNumber,
-				roleid: data.RoleID,
+				fullname: data.fullName,
+				gender: data.gender === "1" ? true : false,
+				phonenumber: data.phoneNumber,
+				roleid: data.roleID,
 			});
 			resolve("Oke");
 		} catch (error) {
@@ -37,7 +37,7 @@ const hashUserPassword = (Password) => {
 const getAllUser = (req, res) => {
 	return new Promise(async (resolve, reject) => {
         try {
-            const users = db.User.findAll({
+            const users = db.user.findAll({
                 raw: true
             });
             resolve(users)
@@ -50,8 +50,8 @@ const getAllUser = (req, res) => {
 const getUserByID = (id)=>{
 	return new Promise(async(resolve,reject)=>{
 		try {
-			let user = await db.User.findOne({
-				where: {UserID: id},
+			let user = await db.user.findOne({
+				where: {userID: id},
 				raw: true
 			})
 
@@ -70,16 +70,16 @@ const updateUserData = (data)=>{
 	return new Promise (async(resolve,reject)=>{
 		try {
 			console.log("User ID:", data.id); 
-			let user = await db.User.findOne({ 
-				where: {UserID: data.id},
+			let user = await db.user.findOne({ 
+				where: {userID: data.id},
 			})
 			if(user){
-				user.FullName = data.FullName
-				user.PhoneNumber = data.PhoneNumber 
-				user.Gender = data.Gender
+				user.fullName = data.fullName
+				user.phoneNumber = data.phoneNumber 
+				user.gender = data.gender
 				await user.save()
 
-				let allUsers = await db.User.findAll()
+				let allUsers = await db.user.findAll()
 				resolve(allUsers)
 			}else{
 				resolve()
