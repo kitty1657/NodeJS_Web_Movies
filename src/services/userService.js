@@ -1,6 +1,6 @@
-import db from "../models/index";
+import db from '../models/index';
 // import user from "../models/user";
-const bcrypt = require("bcryptjs");
+const bcrypt = require('bcryptjs');
 var salt = bcrypt.genSaltSync(10);
 const handleUserLogin = (email, password) => {
 	return new Promise(async (resolve, reject) => {
@@ -11,7 +11,7 @@ const handleUserLogin = (email, password) => {
 				const user = await db.user.findOne({
 					where: { email: email },
 					raw: true,
-					attributes: ["email", "password", "roleID"],
+					attributes: ['email', 'password', 'roleID'],
 				});
 
 				if (user) {
@@ -19,12 +19,12 @@ const handleUserLogin = (email, password) => {
 					console.log(check);
 					if (check) {
 						userData.errCode = 0;
-						userData.errMessage = "Oke";
+						userData.errMessage = 'Oke';
 						delete user.password;
 						userData.user = user;
 					} else {
 						userData.errCode = 3;
-						userData.errMessage = "Wrong password";
+						userData.errMessage = 'Wrong password';
 					}
 				} else {
 					userData.errCode = 2;
@@ -61,19 +61,19 @@ const checkUserEmail = (userEmail) => {
 const getAllUsers = (userID) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			let users = "";
-			if (userID === "ALL") {
+			let users = '';
+			if (userID === 'ALL') {
 				users = await db.user.findAll({
 					attributes: {
-						exclude: ["password"],
+						exclude: ['password'],
 					},
 				});
 			}
-			if (userID && userID !== "ALL") {
+			if (userID && userID !== 'ALL') {
 				users = await db.user.findOne({
 					where: { userID: userID },
 					attributes: {
-						exclude: ["password"],
+						exclude: ['password'],
 					},
 				});
 			}
@@ -92,7 +92,7 @@ const createNewUser = (data) => {
 			if (checkEmail === true) {
 				resolve({
 					errCode: 1,
-					errMessage: "Your email is already in used",
+					errMessage: 'Your email is already in used',
 				});
 			} else {
 				const hashPasswordFromLib = await hashUserPassword(data.password);
@@ -101,17 +101,17 @@ const createNewUser = (data) => {
 					password: hashPasswordFromLib,
 					fullName: data.fullName,
 					address: data.address,
-					gender: data.gender === "1" ? true : false,
+					gender: data.gender === '1' ? true : false,
 					phoneNumber: data.phoneNumber,
 					roleID: data.roleID,
 				});
 				resolve({
 					errCode: 0,
-					errMessage: "Create success",
+					errMessage: 'Create success',
 				});
 			}
 		} catch (error) {
-			console.error("Error hashing password:", error);
+			console.error('Error hashing password:', error);
 			reject(error);
 		}
 	});
@@ -145,7 +145,7 @@ const deleteUser = (userID) => {
 		});
 		resolve({
 			errCode: 0,
-			errMessage: "Delete Success",
+			errMessage: 'Delete Success',
 		});
 	});
 };
@@ -153,40 +153,46 @@ const deleteUser = (userID) => {
 const updateUserData = (data) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			if (!data.userID) {
+			// console.log(data.user)
+			if (!data.user.userID) {
 				resolve({
 					errCode: 2,
-					errMessage: "Missing required parameters",
-				});
-			}
-			console.log("User ID:", data.userID);
-			let user = await db.user.findOne({
-				where: { userID: data.userID },
-				raw: false,
-			});
-			console.log(user);
-			if (user) {
-				user.email = data.email;
-				user.fullName = data.fullName;
-				user.address = data.address;
-				user.phoneNumber = data.phoneNumber;
-				user.gender = data.gender;
-				await user.save();
-				resolve({
-					errCode: 0,
-					errMessage: "Update Success",
+					errMessage: 'Missing required parameters',
 				});
 			} else {
-				resolve({
-					errCode: 1,
-					errMessage: `User isn't found`,
+				console.log('User ID:', data.user.userID);
+				let user = await db.user.findOne({
+					where: { userID: data.user.userID },
+					raw: false,
 				});
+				console.log(1);
+				console.log(data.user.email);
+				if (user) {
+					user.email = data.user.email;
+					user.fullName = data.user.fullName;
+					user.address = data.user.address;
+					user.phoneNumber = data.user.phoneNumber;
+					user.gender = data.user.gender;
+					user.roleID = data.user.roleID;
+					await user.save();
+					resolve({
+						errCode: 0,
+						errMessage: 'Update Success',
+					});
+				} else {
+					resolve({
+						errCode: 1,
+						errMessage: `User isn't found`,
+					});
+				}
 			}
 		} catch (error) {
 			reject(error);
 		}
 	});
 };
+
+const getAllUserRole = () => {};
 
 module.exports = {
 	handleUserLogin: handleUserLogin,

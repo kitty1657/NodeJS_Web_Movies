@@ -4,10 +4,7 @@ import userService from '../services/userService';
 
 const handleLogin = async (req,res)=>{
     const email = req.body.email
-    console.log(email)
     const password = req.body.password
-    console.log(password)
-    console.log(req.body)
     if(!email || !password){
         return res.status(500).json({
             errCode: "0",
@@ -70,10 +67,18 @@ const handleDeleteUser = async (req,res)=>{
     return res.status(200).json(message)
 }
 
+const handleGetAllUserRole = async (req,res)=>{
+    return res.status(200).json({
+        errCode: 0,
+        errMessage: ''
+    })
+}
+
 module.exports = {
     handleLogin: handleLogin,
     handleGetAllUsers: handleGetAllUsers,
     handleCreateNewUser: handleCreateNewUser,
     handleEditUser: handleEditUser,
-    handleDeleteUser: handleDeleteUser
+    handleDeleteUser: handleDeleteUser,
+    handleGetAllUserRole: handleGetAllUserRole
 }
