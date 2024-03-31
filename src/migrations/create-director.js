@@ -22,7 +22,7 @@ module.exports = {
 				type: Sequelize.INTEGER,
 			},
 			imangeURL: {
-				type: Sequelize.DATEONLY,
+				type: Sequelize.STRING,
 			},
 			createdAt: {
 				allowNull: false,
