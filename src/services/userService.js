@@ -153,7 +153,6 @@ const deleteUser = (userID) => {
 const updateUserData = (data) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			// console.log(data.user)
 			if (!data.user.userID) {
 				resolve({
 					errCode: 2,
@@ -162,11 +161,8 @@ const updateUserData = (data) => {
 			} else {
 				console.log('User ID:', data.user.userID);
 				let user = await db.user.findOne({
-					where: { userID: data.user.userID },
-					raw: false,
+					where: { userID: data.user.userID },raw: false
 				});
-				console.log(1);
-				console.log(data.user.email);
 				if (user) {
 					user.email = data.user.email;
 					user.fullName = data.user.fullName;
