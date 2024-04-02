@@ -13,13 +13,13 @@ module.exports = {
 				type: Sequelize.STRING,
 			},
 			birthdate: {
-				type: Sequelize.INTEGER,
+				type: Sequelize.DATEONLY,
 			},
 			nationality: {
 				type: Sequelize.STRING,
 			},
 			biography: {
-				type: Sequelize.INTEGER,
+				type: Sequelize.STRING,
 			},
 			image: {
 				type: Sequelize.STRING,
