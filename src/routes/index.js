@@ -1,6 +1,8 @@
 import express from "express"
 import homeController from "../controllers/homeController";
 import userController from '../controllers/userController';
+import actorController from '../controllers/actorController';
+
 const router = express.Router();
 
 const initWebRoutes = (app)=>{
@@ -12,6 +14,7 @@ const initWebRoutes = (app)=>{
     router.put('/api/edit-user',userController.handleEditUser)
     router.delete('/api/delete-user',userController.handleDeleteUser)
     router.get('api/user-role',userController.handleGetAllUserRole)
+    router.get('/api/get-all-actors',actorController.handleGetAllActors)
 
     return app.use('/',router);
 }

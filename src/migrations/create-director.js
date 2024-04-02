@@ -16,12 +16,12 @@ module.exports = {
 				type: Sequelize.INTEGER,
 			},
 			nationality: {
-				type: Sequelize.FLOAT,
+				type: Sequelize.STRING,
 			},
 			biography: {
 				type: Sequelize.INTEGER,
 			},
-			imangeURL: {
+			image: {
 				type: Sequelize.STRING,
 			},
 			createdAt: {

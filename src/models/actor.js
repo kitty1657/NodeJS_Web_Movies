@@ -8,11 +8,16 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	Actor.init(
 		{
+			actorID: {
+				type: DataTypes.INTEGER,
+				primaryKey: true,
+				autoIncrement: true,
+			},
             name: DataTypes.STRING,
             birthdate: DataTypes.DATEONLY,
             nationality: DataTypes.STRING,
             biography: DataTypes.STRING,
-            imageURL: DataTypes.STRING
+            image: DataTypes.STRING
         },
 		{
 			sequelize,

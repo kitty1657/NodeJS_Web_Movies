@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
             birthdate: DataTypes.DATEONLY,
             nationality: DataTypes.STRING,
             biography: DataTypes.STRING,
-            imageURL: DataTypes.STRING
+            image: DataTypes.STRING
         },
 		{
 			sequelize,
