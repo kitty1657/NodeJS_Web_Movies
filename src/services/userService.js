@@ -77,7 +77,7 @@ const getAllUsers = (userID) => {
 					},
 				});
 			}
-			console.log(users);
+			// console.log(users);
 			resolve(users);
 		} catch (error) {
 			reject(error);
