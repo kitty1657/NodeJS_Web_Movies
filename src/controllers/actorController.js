@@ -18,6 +18,35 @@ const handleGetAllActors = async (req,res)=>{
     })
 }
 
+const handleCreateNewActor = async (req,res)=>{
+
+    let message = await actorService.createNewActor(req.body)
+    console.log(message);
+    return  res.status(200).json(message)
+}
+
+const handleEditActor = async (req,res)=>{
+    let data  = req.body
+    let message = await actorService.editActor(data)
+    console.log(data)
+    return res.status(200).json(message)
+}
+
+const handleDeleteActor = async(req,res)=>{
+    if(!req.body.actorID){
+        return res.status(200).json({
+            errCode: 1,
+            errMessage: 'Missing required parameters'
+        })
+    }
+    console.log(req.body.actorID)
+    let message = await actorService.deleteActor(req.body.actorID)
+    return res.status(200).json(message)
+}
+
 module.exports = {
-    handleGetAllActors: handleGetAllActors
+    handleGetAllActors: handleGetAllActors,
+    handleCreateNewActor: handleCreateNewActor,
+    handleEditActor: handleEditActor,
+    handleDeleteActor: handleDeleteActor
 }
