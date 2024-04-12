@@ -21,7 +21,6 @@ const handleGetAllActors = async (req,res)=>{
 const handleCreateNewActor = async (req,res)=>{
 
     let message = await actorService.createNewActor(req.body)
-    console.log(message);
     return  res.status(200).json(message)
 }
 

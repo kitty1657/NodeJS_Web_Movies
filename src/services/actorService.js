@@ -19,20 +19,26 @@ const getAllActors = (actorID) => {
 	});
 };
 
-const createNewActor = async (newActorData) => {
+const createNewActor = async (data) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const existingActor = await db.actor.findOne({
-				where: { name: newActorData.name },
+				where: { name: data.actor.name },
 			});
-
+			console.log(data.actor)
 			if (existingActor) {
 				resolve({
 					errCode: 1,
 					ereMessage: 'Actor name already exists',
 				});
 			} else {
-				const createdActor = await db.actor.create(newActorData);
+				const createdActor = await db.actor.create({
+					name: data.actor.name,
+					birthdate: data.actor.birthdate,
+					nationality: data.actor.nationality,
+					biography: data.actor.biography,
+					image: data.actor.image
+				});
 				resolve({
 					errCode: 0,
 					ereMessage: 'Create Actor Success',

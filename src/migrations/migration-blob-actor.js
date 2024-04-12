@@ -2,11 +2,11 @@ module.exports = {
 	up: (queryInterface, Sequelize) => {
 		return Promise.all([
 			queryInterface.changeColumn('actor', 'image', {
-				type: Sequelize.BLOB,
+				type: Sequelize.TEXT('long'),
 				allowNull : true
 			}),
 			queryInterface.changeColumn('director', 'image', {
-				type: Sequelize.BLOB,
+				type: Sequelize.TEXT('long'),
 				allowNull : true
 			}),
 		]);
