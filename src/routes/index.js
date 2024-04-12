@@ -2,6 +2,7 @@ import express from "express"
 import userController from '../controllers/userController';
 import actorController from '../controllers/actorController';
 import genreController from '../controllers/genreController';
+import directorController from '../controllers/directorController';
 const router = express.Router();
 
 const initWebRoutes = (app)=>{
@@ -19,6 +20,12 @@ const initWebRoutes = (app)=>{
     router.post('/api/create-new-actor',actorController.handleCreateNewActor)
     router.put('/api/edit-actor',actorController.handleEditActor)
     router.delete('/api/delete-actor',actorController.handleDeleteActor)
+
+    // * Director
+    router.get('/api/get-all-directors',directorController.handleGetAllDirectors)
+    router.post('/api/create-new-director',directorController.handleCreateNewDirector)
+    router.put('/api/edit-director',directorController.handleEditDirector)
+    router.delete('/api/delete-director',directorController.handleDeleteDirector)
 
     // * Category
     router.get('/api/get-all-genre',genreController.handleGetAllGenres)
