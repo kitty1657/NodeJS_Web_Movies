@@ -3,6 +3,7 @@ import userController from '../controllers/userController';
 import actorController from '../controllers/actorController';
 import genreController from '../controllers/genreController';
 import directorController from '../controllers/directorController';
+import movieController from '../controllers/movieController';
 const router = express.Router();
 
 const initWebRoutes = (app)=>{
@@ -32,6 +33,12 @@ const initWebRoutes = (app)=>{
     router.post('/api/create-new-genre',genreController.handleCreateNewGenre)
     router.put('/api/edit-genre',genreController.handleEditGenre)
     router.delete('/api/delete-genre',genreController.handleDeleteGenre)
+
+    // * Movie
+    router.get('/api/get-all-movies',movieController.handleGetAllMovies)
+    router.post('/api/create-new-movie',movieController.handleCreateNewMovie)
+    router.put('/api/edit-movie',movieController.handleEditMovie)
+    router.delete('/api/delete-movie',movieController.handleDeleteMovie)
 
     return app.use('/',router);
 }

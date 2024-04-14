@@ -12,9 +12,6 @@ module.exports = {
             rating: {
                 type: Sequelize.FLOAT
             },
-            ratingDate: {
-                type: Sequelize.DATEONLY
-            },
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE,
