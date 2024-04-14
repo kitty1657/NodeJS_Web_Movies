@@ -8,6 +8,11 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	Director.init(
 		{
+			directorID: {
+				type: DataTypes.INTEGER,
+				primaryKey: true,
+				autoIncrement: true,
+			},
             name: DataTypes.STRING,
             birthdate: DataTypes.DATEONLY,
             nationality: DataTypes.STRING,

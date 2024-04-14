@@ -17,7 +17,7 @@ const getAllActors = (actorID) => {
 			reject(error);
 		}
 	});
-};
+};  
 
 const createNewActor = async (data) => {
 	return new Promise(async (resolve, reject) => {
