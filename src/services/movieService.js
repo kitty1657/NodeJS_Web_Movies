@@ -17,15 +17,36 @@ const getAllMovies = (movieID) => {
 			reject(error);
 		}
 	});
-};  
+};
+
+const addGenreMovie = async (movieID, genreIDs) => {
+	try {
+		const movie = await getAllMovies(movieID);
+		if (!movie) {
+			console.log('Movie not found');
+			return;
+		}
+		console.log(genreIDs)
+		for (const genreID of genreIDs) {
+			await db.moviegenre.create({
+				movieID:  movieID ,
+				genreID:  genreID ,
+			});
+		}
+		console.log('Genres added successfully to the movie');
+	} catch (error) {
+		console.log(error);
+	}
+};
 
 const createNewMovie = async (data) => {
 	return new Promise(async (resolve, reject) => {
 		try {
+			const movieData = data.movie;
 			const existingMovie = await db.movie.findOne({
-				where: { title: data.movie.title },
+				where: { title: movieData.title },
 			});
-			console.log(data.movie)
+			console.log(data.movie);
 			if (existingMovie) {
 				resolve({
 					errCode: 1,
@@ -33,19 +54,25 @@ const createNewMovie = async (data) => {
 				});
 			} else {
 				const createdMovie = await db.movie.create({
-					title: data.movie.name,
-					description: data.movie.description,
-                    countryID: data.movie.countryID,
-                    release: data.movie.release,
-                    duration: data.movie.duration,
-                    thumbnail: data.movie.thumbnail,
-                    videoURL: data.movie.videoURL,
-                    html: data.movie.html
+					title: movieData.name,
+					description: movieData.description,
+					countryID: movieData.countryID,
+					release: movieData.release,
+					duration: movieData.duration,
+					thumbnail: movieData.thumbnail,
+					videoURL: movieData.videoURL,
+					html: movieData.html,
 				});
+
+				const createdMovieID = createdMovie.movieID;
+
+				const movieGenre = await addGenreMovie(createdMovieID,movieData.genres)
+
 				resolve({
 					errCode: 0,
 					ereMessage: 'Create Movie Success',
 					createdMovie,
+					movieGenre
 				});
 			}
 		} catch (error) {
@@ -67,16 +94,16 @@ const editMovie = async (data) => {
 					where: { movieID: data.movie.movieID },
 					raw: false,
 				});
-				
+
 				if (movie) {
-					title = data.movie.name,
-					description = data.movie.description,
-                    countryID = data.movie.countryID,
-                    release = data.movie.release,
-                    duration = data.movie.duration,
-                    thumbnail = data.movie.thumbnail,
-                    videoURL = data.movie.videoURL,
-                    html = data.movie.html
+					title = data.movie.name;
+					description = data.movie.description;
+					countryID = data.movie.countryID;
+					release = data.movie.release;
+					duration = data.movie.duration;
+					thumbnail = data.movie.thumbnail;
+					videoURL = data.movie.videoURL;
+					html = data.movie.html;
 					await movie.save();
 					resolve({
 						errCode: 0,
@@ -96,23 +123,23 @@ const editMovie = async (data) => {
 };
 
 const deleteMovie = (movieID) => {
-	return new Promise(async(resolve, reject) => {
+	return new Promise(async (resolve, reject) => {
 		let movie = await db.movie.findOne({
-			where: {movieID: movieID}
-		})
-		if(!movie){
+			where: { movieID: movieID },
+		});
+		if (!movie) {
 			resolve({
 				errCode: 2,
-				errMessage: `The movie isn't exist`
-			})
+				errMessage: `The movie isn't exist`,
+			});
 		}
 		await db.movie.destroy({
-			where: {movieID: movieID}
-		})
+			where: { movieID: movieID },
+		});
 		resolve({
 			errCode: 0,
-			errMessage: 'Delete Success'
-		})
+			errMessage: 'Delete Success',
+		});
 	});
 };
 
@@ -120,5 +147,5 @@ module.exports = {
 	getAllMovies: getAllMovies,
 	createNewMovie: createNewMovie,
 	editMovie: editMovie,
-	deleteMovie: deleteMovie
+	deleteMovie: deleteMovie,
 };
