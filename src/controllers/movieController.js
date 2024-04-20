@@ -10,7 +10,7 @@ const handleGetAllMovies = async (req,res)=>{
         })
     }
 
-    let movies = await movieService.getAllActors(id)
+    let movies = await movieService.getAllMovies(id)
     return res.status(200).json({
         errCode: 0,
         movies
