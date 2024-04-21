@@ -102,6 +102,10 @@ const deleteGenre = (genreID) => {
 	});
 };
 
+const searchGenre = ()=>{
+	
+}
+
 module.exports = {
     getAllGenres: getAllGenres,
     createNewGenre: createNewGenre,

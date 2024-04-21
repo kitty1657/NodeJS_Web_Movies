@@ -41,8 +41,18 @@ const initWebRoutes = (app)=>{
     router.put('/api/edit-movie',movieController.handleEditMovie)
     router.delete('/api/delete-movie',movieController.handleDeleteMovie)
 
+    // * Movie Genre
+    router.get('/api/get-all-moviegenres',movieController.handleGetAllMovieGenres)
+
+    // * Movie Actor
+    router.get('/api/get-all-movieactors',movieController.handleGetAllMovieActors)
+
+    // * Movie Director
+    router.get('/api/get-all-moviedirectors',movieController.handleGetAllMovieDirectors)
+
+
     // * Country
-    router.get('/api/get-country',countryController.hanldeGetAllCountries)
+    router.get('/api/get-all-countries',countryController.hanldeGetAllCountries)
 
     return app.use('/',router);
 }

@@ -26,7 +26,6 @@ const handleCreateNewMovie = async (req,res)=>{
 const handleEditMovie = async (req,res)=>{
     let data  = req.body
     let message = await movieService.editMovie(data)
-    console.log(data)
     return res.status(200).json(message)
 }
 
@@ -42,9 +41,63 @@ const handleDeleteMovie = async(req,res)=>{
     return res.status(200).json(message)
 }
 
+const handleGetAllMovieGenres = async(req,res)=>{
+    let id = req.query.id
+    if(!id){
+        return res.status(200).json({
+            errCode: 1,
+            errMessage: "Missing parameters",
+            moviegenres:[]
+        })
+    }
+
+    let moviegenres = await movieService.getAllGenresMovie(id)
+    return res.status(200).json({
+        errCode: 0,
+        moviegenres
+    })
+}
+
+const handleGetAllMovieActors = async(req,res)=>{
+    let id = req.query.id
+    if(!id){
+        return res.status(200).json({
+            errCode: 1,
+            errMessage: "Missing parameters",
+            movieactors:[]
+        })
+    }
+
+    let movieactors = await movieService.getAllActorsMovie(id)
+    return res.status(200).json({
+        errCode: 0,
+        movieactors
+    })
+}
+
+const handleGetAllMovieDirectors = async(req,res)=>{
+    let id = req.query.id
+    if(!id){
+        return res.status(200).json({
+            errCode: 1,
+            errMessage: "Missing parameters",
+            moviedirectors:[]
+        })
+    }
+
+    let moviedirectors = await movieService.getAllDirectorsMovie(id)
+    return res.status(200).json({
+        errCode: 0,
+        moviedirectors
+    })
+}
+
 module.exports = {
     handleGetAllMovies: handleGetAllMovies,
     handleCreateNewMovie: handleCreateNewMovie,
     handleEditMovie: handleEditMovie,
-    handleDeleteMovie: handleDeleteMovie
+    handleDeleteMovie: handleDeleteMovie,
+    handleGetAllMovieGenres: handleGetAllMovieGenres,
+    handleGetAllMovieActors: handleGetAllMovieActors,
+    handleGetAllMovieDirectors: handleGetAllMovieDirectors
 }

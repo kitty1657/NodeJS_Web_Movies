@@ -26,14 +26,52 @@ const addGenreMovie = async (movieID, genreIDs) => {
 			console.log('Movie not found');
 			return;
 		}
-		console.log(genreIDs)
+		console.log(genreIDs);
 		for (const genreID of genreIDs) {
 			await db.moviegenre.create({
-				movieID:  movieID ,
-				genreID:  genreID ,
+				movieID: movieID,
+				genreID: genreID,
 			});
 		}
 		console.log('Genres added successfully to the movie');
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+const addActorMovie = async (movieID, actorIDs) => {
+	try {
+		const movie = await getAllMovies(movieID);
+		if (!movie) {
+			console.log('Movie not found');
+			return;
+		}
+		for (const actorID of actorIDs) {
+			await db.movieactor.create({
+				movieID: movieID,
+				actorID: actorID,
+			});
+		}
+		console.log('Actors added successfully to the movie');
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+const addDirectorMovie = async (movieID, directorIDs) => {
+	try {
+		const movie = await getAllMovies(movieID);
+		if (!movie) {
+			console.log('Movie not found');
+			return;
+		}
+		for (const directorID of directorIDs) {
+			await db.moviedirector.create({
+				movieID: movieID,
+				directorID: directorID,
+			});
+		}
+		console.log('Actors added successfully to the movie');
 	} catch (error) {
 		console.log(error);
 	}
@@ -46,7 +84,7 @@ const createNewMovie = async (data) => {
 			const existingMovie = await db.movie.findOne({
 				where: { title: movieData.title },
 			});
-			console.log(data.movie);
+			console.log(movieData);
 			if (existingMovie) {
 				resolve({
 					errCode: 1,
@@ -54,7 +92,7 @@ const createNewMovie = async (data) => {
 				});
 			} else {
 				const createdMovie = await db.movie.create({
-					title: movieData.name,
+					title: movieData.title,
 					description: movieData.description,
 					countryID: movieData.countryID,
 					release: movieData.release,
@@ -66,19 +104,132 @@ const createNewMovie = async (data) => {
 
 				const createdMovieID = createdMovie.movieID;
 
-				const movieGenre = await addGenreMovie(createdMovieID,movieData.genres)
+				const movieGenre = await addGenreMovie(
+					createdMovieID,
+					movieData.genres
+				);
+
+				const movieActor = await addActorMovie(
+					createdMovieID,
+					movieData.actors
+				);
+
+				const movieDirector = await addDirectorMovie(
+					createdMovieID,
+					movieData.directors
+				);
 
 				resolve({
 					errCode: 0,
 					ereMessage: 'Create Movie Success',
 					createdMovie,
-					movieGenre
+					movieGenre,
+					movieActor,
+					movieDirector,
 				});
 			}
 		} catch (error) {
 			reject(error);
 		}
 	});
+};
+
+const editGenreMovie = async (data) => {
+	try {
+		const movieID = data.movie.movieID;
+		const newGenreIDs = data.movie.genres;
+
+		if (newGenreIDs.length > 0) {
+			// Tìm và xóa tất cả các genre của movie cũ
+			await db.moviegenre.destroy({
+				where: { movieID: movieID },
+			});
+
+			// Thêm các genre mới vào movie
+			for (const genreID of newGenreIDs) {
+				await db.moviegenre.create({
+					movieID: movieID,
+					genreID: genreID,
+				});
+			}
+		}
+
+		return {
+			errCode: 0,
+			errMessage: 'Edit Genre Movie Success',
+		};
+	} catch (error) {
+		return {
+			errCode: 1,
+			errMessage: 'Edit Genre Movie Failed',
+		};
+	}
+};
+
+const editActorMovie = async (data) => {
+	try {
+		const movieID = data.movie.movieID;
+		const newActorIDs = data.movie.actors;
+
+		// Kiểm tra nếu newActorIDs không rỗng thì thực hiện xóa và thêm liên kết
+		if (newActorIDs.length > 0) {
+			// Xóa tất cả các liên kết giữa phim và diễn viên của phim cũ
+			await db.movieactor.destroy({
+				where: { movieID: movieID },
+			});
+
+			// Thêm các liên kết mới vào movie
+			for (const actorID of newActorIDs) {
+				await db.movieactor.create({
+					movieID: movieID,
+					actorID: actorID,
+				});
+			}
+		}
+
+		return {
+			errCode: 0,
+			errMessage: 'Edit Actor Movie Success',
+		};
+	} catch (error) {
+		return {
+			errCode: 1,
+			errMessage: 'Edit Actor Movie Failed',
+		};
+	}
+};
+
+const editDirectorMovie = async (data) => {
+	try {
+		const movieID = data.movie.movieID;
+		const newDirectorIDs = data.movie.diretors;
+
+		// Kiểm tra nếu newActorIDs không rỗng thì thực hiện xóa và thêm liên kết
+		if (newDirectorIDs.length > 0) {
+			// Xóa tất cả các liên kết giữa phim và diễn viên của phim cũ
+			await db.moviedirector.destroy({
+				where: { movieID: movieID },
+			});
+
+			// Thêm các liên kết mới vào movie
+			for (const directorID of newDirectorIDs) {
+				await db.moviedirector.create({
+					movieID: movieID,
+					directorID: directorID,
+				});
+			}
+		}
+
+		return {
+			errCode: 0,
+			errMessage: 'Edit Actor Movie Success',
+		};
+	} catch (error) {
+		return {
+			errCode: 1,
+			errMessage: 'Edit Actor Movie Failed',
+		};
+	}
 };
 
 const editMovie = async (data) => {
@@ -96,14 +247,17 @@ const editMovie = async (data) => {
 				});
 
 				if (movie) {
-					title = data.movie.name;
-					description = data.movie.description;
-					countryID = data.movie.countryID;
-					release = data.movie.release;
-					duration = data.movie.duration;
-					thumbnail = data.movie.thumbnail;
-					videoURL = data.movie.videoURL;
-					html = data.movie.html;
+					movie.title = data.movie.title;
+					movie.description = data.movie.description;
+					movie.countryID = data.movie.countryID;
+					movie.release = data.movie.release;
+					movie.duration = data.movie.duration;
+					movie.thumbnail = data.movie.thumbnail;
+					movie.videoURL = data.movie.videoURL;
+					movie.html = data.movie.html;
+					await editGenreMovie(data);
+					await editActorMovie(data);
+					await editDirectorMovie(data)
 					await movie.save();
 					resolve({
 						errCode: 0,
@@ -133,6 +287,12 @@ const deleteMovie = (movieID) => {
 				errMessage: `The movie isn't exist`,
 			});
 		}
+		await db.moviegenre.destroy({
+			where: { movieID: movieID },
+		});
+		await db.movieactor.destroy({
+			where: { movieID: movieID },
+		});
 		await db.movie.destroy({
 			where: { movieID: movieID },
 		});
@@ -143,9 +303,69 @@ const deleteMovie = (movieID) => {
 	});
 };
 
+const getAllGenresMovie = (movieID) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let moviegenres = '';
+			if (movieID === 'ALL') {
+				moviegenres = await db.moviegenre.findAll();
+			}
+			if (movieID && movieID !== 'ALL') {
+				moviegenres = await db.moviegenre.findAll({
+					where: { movieID: movieID },
+				});
+			}
+			resolve(moviegenres);
+		} catch (error) {
+			reject(error);
+		}
+	});
+};
+
+const getAllActorsMovie = (movieID) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let movieactors = '';
+			if (movieID === 'ALL') {
+				movieactors = await db.movieactor.findAll();
+			}
+			if (movieID && movieID !== 'ALL') {
+				movieactors = await db.movieactor.findAll({
+					where: { movieID: movieID },
+				});
+			}
+			resolve(movieactors);
+		} catch (error) {
+			reject(error);
+		}
+	});
+};
+
+const getAllDirectorsMovie = (movieID) => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			let moviedirectors = '';
+			if (movieID === 'ALL') {
+				moviedirectors = await db.moviedirector.findAll();
+			}
+			if (movieID && movieID !== 'ALL') {
+				moviedirectors = await db.moviedirector.findAll({
+					where: { movieID: movieID },
+				});
+			}
+			resolve(moviedirectors);
+		} catch (error) {
+			reject(error);
+		}
+	});
+};
+
 module.exports = {
 	getAllMovies: getAllMovies,
 	createNewMovie: createNewMovie,
 	editMovie: editMovie,
 	deleteMovie: deleteMovie,
+	getAllGenresMovie: getAllGenresMovie,
+	getAllActorsMovie: getAllActorsMovie,
+	getAllDirectorsMovie: getAllDirectorsMovie,
 };
