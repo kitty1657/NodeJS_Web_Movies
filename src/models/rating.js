@@ -8,9 +8,12 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	Rating.init(
 		{
-            movieID: DataTypes.INTEGER,
+			ratingID: {
+				type: DataTypes.INTEGER,
+				primaryKey: true,
+				autoIncrement: true,
+			},
             rating: DataTypes.FLOAT,
-            ratingdate: DataTypes.DATEONLY
         },
 		{
 			sequelize,

@@ -1,15 +1,15 @@
 module.exports = {
 	up: (queryInterface, Sequelize) => {
 		return Promise.all([
-			queryInterface.changeColumn('actor', 'image', {
+			queryInterface.changeColumn('actor', 'biography', {
 				type: Sequelize.TEXT('long'),
 				allowNull : true
 			}),
-			queryInterface.changeColumn('director', 'image', {
+			queryInterface.changeColumn('director', 'biography', {
 				type: Sequelize.TEXT('long'),
 				allowNull : true
 			}),
-			queryInterface.changeColumn('movie', 'thumbnail', {
+            queryInterface.changeColumn('movie', 'description', {
 				type: Sequelize.TEXT('long'),
 				allowNull : true
 			}),
@@ -18,15 +18,15 @@ module.exports = {
 
 	down: (queryInterface, Sequelize) => {
 		return Promise.all([
-			queryInterface.changeColumn('actor', 'image', {
+			queryInterface.changeColumn('actor', 'biography', {
 				type: Sequelize.STRING,
 				allowNull : true
 			}),
-			queryInterface.changeColumn('director', 'image', {
+			queryInterface.changeColumn('director', 'biography', {
 				type: Sequelize.STRING,
 				allowNull : true
 			}),
-			queryInterface.changeColumn('movie', 'thumbnail', {
+            queryInterface.changeColumn('movie', 'description', {
 				type: Sequelize.STRING,
 				allowNull : true
 			}),

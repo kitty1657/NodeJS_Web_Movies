@@ -10,8 +10,6 @@ module.exports = {
 				table: "movie",
 				field: "movieID",
 			},
-			onDelete: "CASCADE",
-			onDelete: "CASCADE",
 		});
 		await queryInterface.addConstraint("movieactor", {
 			fields: ["actorID"],
@@ -21,8 +19,6 @@ module.exports = {
 				table: "actor",
 				field: "actorID",
 			},
-			onDelete: "CASCADE",
-			onDelete: "CASCADE",
 		});
 	},
 	async down(queryInterface, Sequelize) {
@@ -34,8 +30,6 @@ module.exports = {
 				table: "movie",
 				field: "movieID",
 			},
-			onDelete: "CASCADE",
-			onDelete: "CASCADE",
 		});
 		await queryInterface.removeConstraint("movieactor", {
 			fields: ["actorID"],
@@ -45,8 +39,6 @@ module.exports = {
 				table: "actor",
 				field: "actorID",
 			},
-			onDelete: "CASCADE",
-			onDelete: "CASCADE",
 		});
 	},
 };

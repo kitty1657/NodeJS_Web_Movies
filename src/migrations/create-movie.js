@@ -12,8 +12,8 @@ module.exports = {
 			title: {
 				type: Sequelize.STRING,
 			},
-			ratingID: {
-				type: Sequelize.INTEGER,
+			description: {
+				type: Sequelize.STRING
 			},
 			countryID: {
 				type: Sequelize.INTEGER,

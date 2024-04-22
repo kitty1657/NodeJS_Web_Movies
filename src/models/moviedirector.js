@@ -8,7 +8,10 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	MovieDirector.init(
 		{
-            movieID: DataTypes.INTEGER,
+            movieID: {
+				type: DataTypes.INTEGER,
+				primaryKey: true,
+			},
             directorID: DataTypes.INTEGER
         },
 		{

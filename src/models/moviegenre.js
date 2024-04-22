@@ -8,7 +8,10 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	MovieGenre.init(
 		{
-            movieID: DataTypes.INTEGER,
+            movieID: {
+				type: DataTypes.INTEGER,
+				primaryKey: true,
+			},
             genreID: DataTypes.INTEGER
         },
 		{
