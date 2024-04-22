@@ -38,14 +38,32 @@ const handleDeleteGenre = async(req,res)=>{
             errMessage: 'Missing required parameters'
         })
     }
-    // console.log(req.body.genreID)
     let message = await genreService.deleteGenre(req.body.genreID)
     return res.status(200).json(message)
 }
 
+const handleSearchGenre = async (req, res) => {
+    try {
+        const keyword = req.query.keyword;
+
+        const genres = await genreService.searchGenre(keyword);
+
+        return res.status(200).json({
+            errCode: 0,
+            genres
+        });
+    } catch (error) {
+        return res.status(500).json({
+            errCode: 500,
+            errMessage: 'Internal server error'
+        });
+    }
+};
+
 module.exports = {
-    handleGetAllGenres: handleGetAllGenres,
-    handleCreateNewGenre: handleCreateNewGenre,
-    handleEditGenre: handleEditGenre,
-    handleDeleteGenre: handleDeleteGenre
-}
+    handleGetAllGenres,
+    handleCreateNewGenre,
+    handleEditGenre,
+    handleDeleteGenre,
+    handleSearchGenre
+};

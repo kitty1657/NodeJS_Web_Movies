@@ -34,6 +34,7 @@ const initWebRoutes = (app)=>{
     router.post('/api/create-new-genre',genreController.handleCreateNewGenre)
     router.put('/api/edit-genre',genreController.handleEditGenre)
     router.delete('/api/delete-genre',genreController.handleDeleteGenre)
+    router.get('/api/get-search-genre',genreController.handleSearchGenre)
 
     // * Movie
     router.get('/api/get-all-movies',movieController.handleGetAllMovies)
