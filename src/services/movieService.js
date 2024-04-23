@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import db from '../models/index';
 
 const getAllMovies = (movieID) => {
@@ -363,6 +364,33 @@ const getAllDirectorsMovie = (movieID) => {
 	});
 };
 
+const searchMovie = async (keyword) => {
+	try {
+		let movieSearch = '';
+		console.log(keyword)
+
+		if (!keyword) {
+			movieSearch = await db.movie.findAll();
+		} else {
+			movieSearch = await db.movie.findAll({
+				where: {
+					title: {
+						[Op.substring]: `%${keyword}%`, 
+					},
+				},
+			});
+		}
+
+		return {
+			errCode: 0,
+			errMessage: 'Search Success',
+			movieSearch,
+		};
+	} catch (error) {
+		throw error;
+	}
+};
+
 module.exports = {
 	getAllMovies: getAllMovies,
 	createNewMovie: createNewMovie,
@@ -371,4 +399,5 @@ module.exports = {
 	getAllGenresMovie: getAllGenresMovie,
 	getAllActorsMovie: getAllActorsMovie,
 	getAllDirectorsMovie: getAllDirectorsMovie,
+	searchMovie: searchMovie,
 };

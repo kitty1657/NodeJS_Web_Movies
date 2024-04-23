@@ -92,6 +92,24 @@ const handleGetAllMovieDirectors = async(req,res)=>{
     })
 }
 
+const handleSearchMovie = async (req, res) => {
+    try {
+        const keyword = req.query.keyword;
+
+        const movie = await movieService.searchMovie(keyword);
+
+        return res.status(200).json({
+            errCode: 0,
+            movie
+        });
+    } catch (error) {
+        return res.status(500).json({
+            errCode: 500,
+            errMessage: 'Internal server error'
+        });
+    }
+};
+
 module.exports = {
     handleGetAllMovies: handleGetAllMovies,
     handleCreateNewMovie: handleCreateNewMovie,
@@ -99,5 +117,6 @@ module.exports = {
     handleDeleteMovie: handleDeleteMovie,
     handleGetAllMovieGenres: handleGetAllMovieGenres,
     handleGetAllMovieActors: handleGetAllMovieActors,
-    handleGetAllMovieDirectors: handleGetAllMovieDirectors
+    handleGetAllMovieDirectors: handleGetAllMovieDirectors,
+    handleSearchMovie: handleSearchMovie,
 }
