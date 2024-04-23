@@ -293,6 +293,9 @@ const deleteMovie = (movieID) => {
 		await db.movieactor.destroy({
 			where: { movieID: movieID },
 		});
+		await db.moviedirector.destroy({
+			where: { movieID: movieID },
+		});
 		await db.movie.destroy({
 			where: { movieID: movieID },
 		});
