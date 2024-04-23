@@ -16,18 +16,21 @@ const initWebRoutes = (app)=>{
     router.put('/api/edit-user',userController.handleEditUser)
     router.delete('/api/delete-user',userController.handleDeleteUser)
     router.get('api/user-role',userController.handleGetAllUserRole)
+    router.get('/api/get-search-user',userController.handleSearchUser)
 
     // * Actor
     router.get('/api/get-all-actors',actorController.handleGetAllActors)
     router.post('/api/create-new-actor',actorController.handleCreateNewActor)
     router.put('/api/edit-actor',actorController.handleEditActor)
     router.delete('/api/delete-actor',actorController.handleDeleteActor)
+    router.get('/api/get-search-actor',actorController.handleSearchActor)
 
     // * Director
     router.get('/api/get-all-directors',directorController.handleGetAllDirectors)
     router.post('/api/create-new-director',directorController.handleCreateNewDirector)
     router.put('/api/edit-director',directorController.handleEditDirector)
     router.delete('/api/delete-director',directorController.handleDeleteDirector)
+    router.get('/api/get-search-director',directorController.handleSearchDirector)
 
     // * Category
     router.get('/api/get-all-genre',genreController.handleGetAllGenres)
@@ -35,6 +38,7 @@ const initWebRoutes = (app)=>{
     router.put('/api/edit-genre',genreController.handleEditGenre)
     router.delete('/api/delete-genre',genreController.handleDeleteGenre)
     router.get('/api/get-search-genre',genreController.handleSearchGenre)
+    
 
     // * Movie
     router.get('/api/get-all-movies',movieController.handleGetAllMovies)

@@ -74,11 +74,30 @@ const handleGetAllUserRole = async (req,res)=>{
     })
 }
 
+const handleSearchUser = async (req, res) => {
+    try {
+        const keyword = req.query.keyword;
+
+        const user = await userService.searchUser(keyword);
+
+        return res.status(200).json({
+            errCode: 0,
+            user
+        });
+    } catch (error) {
+        return res.status(500).json({
+            errCode: 500,
+            errMessage: 'Internal server error'
+        });
+    }
+};
+
 module.exports = {
     handleLogin: handleLogin,
     handleGetAllUsers: handleGetAllUsers,
     handleCreateNewUser: handleCreateNewUser,
     handleEditUser: handleEditUser,
     handleDeleteUser: handleDeleteUser,
-    handleGetAllUserRole: handleGetAllUserRole
+    handleGetAllUserRole: handleGetAllUserRole,
+    handleSearchUser: handleSearchUser
 }
