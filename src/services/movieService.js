@@ -391,6 +391,11 @@ const searchMovie = async (keyword) => {
 	}
 };
 
+const countMovies = async () => {
+    return db.movie.count();
+};
+
+
 module.exports = {
 	getAllMovies: getAllMovies,
 	createNewMovie: createNewMovie,
@@ -400,4 +405,5 @@ module.exports = {
 	getAllActorsMovie: getAllActorsMovie,
 	getAllDirectorsMovie: getAllDirectorsMovie,
 	searchMovie: searchMovie,
+	countMovies: countMovies
 };
