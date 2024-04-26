@@ -17,6 +17,7 @@ const initWebRoutes = (app) => {
   router.delete("/api/delete-user", userController.handleDeleteUser);
   router.get("api/user-role", userController.handleGetAllUserRole);
   router.get("/api/get-search-user", userController.handleSearchUser);
+  router.get("/api/user/count", userController.handleGetUserCount);
 
   // * Actor
   router.get("/api/get-all-actors", actorController.handleGetAllActors);

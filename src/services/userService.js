@@ -1,6 +1,6 @@
 import { Op } from 'sequelize';
 import db from "../models/index";
-// import user from "../models/user";
+
 const bcrypt = require("bcryptjs");
 var salt = bcrypt.genSaltSync(10);
 const handleUserLogin = (email, password) => {
@@ -228,11 +228,16 @@ const searchUser = async (keyword) => {
   }
 };
 
+const countUser = async () => {
+  return db.user.count();
+};
+
 module.exports = {
   handleUserLogin: handleUserLogin,
   getAllUsers: getAllUsers,
   createNewUser: createNewUser,
   updateUserData: updateUserData,
   deleteUser: deleteUser,
-  searchUser: searchUser
+  searchUser: searchUser,
+  countUser: countUser
 };
