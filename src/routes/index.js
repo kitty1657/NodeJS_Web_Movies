@@ -5,6 +5,7 @@ import genreController from "../controllers/genreController";
 import directorController from "../controllers/directorController";
 import movieController from "../controllers/movieController";
 import countryController from "../controllers/countryController";
+import commentController from '../controllers/commentController';
 const router = express.Router();
 
 const initWebRoutes = (app) => {
@@ -81,6 +82,10 @@ const initWebRoutes = (app) => {
 
   // * Country
   router.get("/api/get-all-countries", countryController.hanldeGetAllCountries);
+
+  // * Comment
+  router.get("/api/get-all-comments", commentController.handleGetAllComments)
+  router.post("/api/create-new-comment",commentController.handleCreateNewComment)
 
   return app.use("/", router);
 };

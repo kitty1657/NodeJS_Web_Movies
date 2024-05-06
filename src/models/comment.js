@@ -6,11 +6,16 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	Comment.init(
 		{
+			commentID: {
+				type: DataTypes.STRING,
+				primaryKey: true,
+				autoIncrement: true
+			},
             movieID: DataTypes.INTEGER,
             userID: DataTypes.INTEGER,
 			userName: DataTypes.STRING,
 			content: DataTypes.STRING,
-			commentdDate: DataTypes.DATE
+			commentDate: DataTypes.DATE
         },
 		{
 			sequelize,
