@@ -6,16 +6,19 @@ import directorController from '../controllers/directorController';
 import movieController from '../controllers/movieController';
 import countryController from '../controllers/countryController';
 import commentController from '../controllers/commentController';
+import { checkUserJWT, checkUserPermission } from '../middleware/JWTAction';
 const router = express.Router();
 
-// const checkUserLogin = (req, res, next)=>{
-//   const nonSecurePath = ['/','']
-//   if(nonSecurePath.includes(req.path)) return next()
+const checkUserLogin = (req, res, next)=>{
+  const nonSecurePath = ['/api/login','/api/user/create-new-user']
+  if(nonSecurePath.includes(req.path)) return next()
 
-//   next()
-// }
+  next()
+}
 
 const initWebRoutes = (app) => {
+  router.all('*', checkUserLogin)
+
 	router.post('/api/login', userController.handleLogin);
 
 	// * User
@@ -54,14 +57,14 @@ const initWebRoutes = (app) => {
 	);
 
 	// * Category
-	router.get('/api/genre/get-all-genre', genreController.handleGetAllGenres);
+	router.get('/api/genre/get-all-genre',checkUserJWT,checkUserPermission, genreController.handleGetAllGenres);
 	router.post('/api/genre/create-new-genre', genreController.handleCreateNewGenre);
 	router.put('/api/genre/edit-genre', genreController.handleEditGenre);
 	router.delete('/api/genre/delete-genre', genreController.handleDeleteGenre);
 	router.get('/api/genre/get-search-genre', genreController.handleSearchGenre);
 
 	// * Movie
-	router.get('/api/movie/get-all-movies', movieController.handleGetAllMovies);
+	router.get('/api/movie/get-all-movies',checkUserJWT,checkUserPermission, movieController.handleGetAllMovies);
 	router.post('/api/movie/create-new-movie', movieController.handleCreateNewMovie);
 	router.put('/api/movie/edit-movie', movieController.handleEditMovie);
 	router.delete('/api/movie/delete-movie', movieController.handleDeleteMovie);

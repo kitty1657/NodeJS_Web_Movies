@@ -30,6 +30,7 @@ const handleUserLogin = (email, password) => {
             let token = createJWT(payload)
             userData.errCode = 0;
             userData.errMessage = "Oke";
+            userData.redirectURL =  url(user.roleID)
             delete user.password;
             userData.user = user;
             userData.access_token = token
@@ -51,6 +52,14 @@ const handleUserLogin = (email, password) => {
     }
   });
 };
+
+const url = (roleID)=>{
+  if(roleID === 1){
+    return `/dashboard/Home`
+  }else{
+    return `/dashboard/Home`
+  }
+}
 
 const checkUserEmail = (userEmail) => {
   return new Promise(async (resolve, reject) => {

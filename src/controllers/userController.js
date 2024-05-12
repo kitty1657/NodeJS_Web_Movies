@@ -21,6 +21,7 @@ const handleLogin = async (req, res) => {
 		message: userData.errMessage,
 		user: userData.user ? userData.user : {},
 		access_token: userData.access_token,
+    	redirectURL: userData.redirectURL
 	});
 };
 
