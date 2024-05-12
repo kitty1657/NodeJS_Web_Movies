@@ -10,6 +10,9 @@ const handleGetAllMovies = async (req, res) => {
     });
   }
 
+  // Cookies that have not been signed
+  console.log('Cookies: ', req.cookies)
+
   let movies = await movieService.getAllMovies(id);
   return res.status(200).json({
     errCode: 0,

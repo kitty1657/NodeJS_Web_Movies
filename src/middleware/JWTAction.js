@@ -1,15 +1,13 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-const createJWT = () => {
-	let payload = { name: "Bach", phone: "0346331968" };
+const createJWT = (payload) => {
 	let key = process.env.JWT_SECRET;
 	let token = null;
 	try {
 		token = jwt.sign(payload, key);
-		console.log(token);
 	} catch (error) {
-		console.log("====================================");
+		console.log("====================================")
 		console.log(error);
 		console.log("====================================");
 	}
@@ -27,8 +25,13 @@ const verifyToken = (token) => {
     }
     return data;
 };
+const checkUserJWT = (req,res,next)=>{
+	let cookies = req.cookies
+	console.log(cookies)
+}
 
 module.exports = {
 	createJWT,
 	verifyToken,
+	checkUserJWT
 };

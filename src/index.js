@@ -2,8 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import viewEngine from "./config/viewEngine";
 import initWebRoutes from "./routes/index";
-import { createJWT, verifyToken } from "./middleware/JWTAction";
-
+import cookieParser from 'cookie-parser';
 const cors = require("cors");
 
 require("dotenv").config();
@@ -19,12 +18,8 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 
-//test
-createJWT();
-let decodedData = verifyToken(
-	"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQmFjaCIsInBob25lIjoiMDM0NjMzMTk2OCIsImlhdCI6MTcwODc3NDAxNH0.cN-kZ8dxvP2aZKmMenhxW4yWE3Y6pEw4Tf-qAyj9tCI"
-);
-console.log(decodedData)
+// config cookie-parser
+app.use(cookieParser())
 
 viewEngine(app);
 initWebRoutes(app);

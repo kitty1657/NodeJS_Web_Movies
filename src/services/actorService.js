@@ -30,7 +30,7 @@ const createNewActor = (data) => {
 			if (existingActor) {
 				resolve({
 					errCode: 1,
-					ereMessage: 'Actor name already exists',
+					ereMessage: 'Actor already exists',
 				});
 			} else {
 				const createdActor = await db.actor.create({

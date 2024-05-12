@@ -1,5 +1,7 @@
 import { Op } from 'sequelize';
 import db from "../models/index";
+import { createJWT } from '../middleware/JWTAction';
+require('dotenv').config()
 
 const bcrypt = require("bcryptjs");
 var salt = bcrypt.genSaltSync(10);
@@ -17,12 +19,20 @@ const handleUserLogin = (email, password) => {
 
         if (user) {
           const check = bcrypt.compareSync(password, user.password);
-          console.log(check);
           if (check) {
+            
+            let payload = {
+              email: user.email,
+              roleID: user.roleID,
+              expiresIn: process.env.JWT_EXP
+            }
+
+            let token = createJWT(payload)
             userData.errCode = 0;
             userData.errMessage = "Oke";
             delete user.password;
             userData.user = user;
+            userData.access_token = token
           } else {
             userData.errCode = 3;
             userData.errMessage = "Wrong password";

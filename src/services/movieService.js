@@ -13,6 +13,7 @@ const getAllMovies = (movieID) => {
 					where: { movieID: movieID },
 				});
 			}
+			
 			resolve(movies);
 		} catch (error) {
 			reject(error);
