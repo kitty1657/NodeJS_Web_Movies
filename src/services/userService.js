@@ -16,7 +16,7 @@ const handleUserLogin = (email, password) => {
           raw: true,
           attributes: ["email", "password", "roleID", "fullName"],
         });
-
+        console.log(user)
         if (user) {
           const check = bcrypt.compareSync(password, user.password);
           if (check) {
@@ -24,10 +24,12 @@ const handleUserLogin = (email, password) => {
             let payload = {
               email: user.email,
               roleID: user.roleID,
+              fullName: user.fullName,
               expiresIn: process.env.JWT_EXP
             }
 
             let token = createJWT(payload)
+            console.log(token)
             userData.errCode = 0;
             userData.errMessage = "Oke";
             userData.redirectURL =  url(user.roleID)

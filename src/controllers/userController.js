@@ -14,14 +14,19 @@ const handleLogin = async (req, res) => {
 	let userData = await userService.handleUserLogin(email, password);
 
 	// set cookie
-	res.cookie('jwt', userData.access_token, { httpOnly: true, maxAge: 60 * 60 * 1000 });
+	if (userData && userData.user && userData.access_token) {
+		res.cookie('jwt', userData.access_token, {
+			httpOnly: true,
+			maxAge: 60 * 60 * 1000,
+		});
+	}
 
 	return res.status(200).json({
 		errCode: userData.errCode,
 		message: userData.errMessage,
 		user: userData.user ? userData.user : {},
 		access_token: userData.access_token,
-    	redirectURL: userData.redirectURL
+		redirectURL: userData.redirectURL,
 	});
 };
 

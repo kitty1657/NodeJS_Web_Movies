@@ -9,20 +9,15 @@ import commentController from '../controllers/commentController';
 import { checkUserJWT, checkUserPermission } from '../middleware/JWTAction';
 const router = express.Router();
 
-const checkUserLogin = (req, res, next)=>{
-  const nonSecurePath = ['/api/login','/api/user/create-new-user']
-  if(nonSecurePath.includes(req.path)) return next()
-
-  next()
-}
-
 const initWebRoutes = (app) => {
-  router.all('*', checkUserLogin)
-
 	router.post('/api/login', userController.handleLogin);
+	router.all('*', checkUserJWT, checkUserPermission);
 
 	// * User
-	router.get('/api/user/get-all-users', userController.handleGetAllUsers);
+	router.get(
+		'/api/user/get-all-users',
+		userController.handleGetAllUsers
+	);
 	router.post('/api/user/create-new-user', userController.handleCreateNewUser);
 	router.put('/api/user/edit-user', userController.handleEditUser);
 	router.delete('/api/user/delete-user', userController.handleDeleteUser);
@@ -31,8 +26,14 @@ const initWebRoutes = (app) => {
 	router.get('/api/user/count', userController.handleGetUserCount);
 
 	// * Actor
-	router.get('/api/actor/get-all-actors', actorController.handleGetAllActors);
-	router.post('/api/actor/create-new-actor', actorController.handleCreateNewActor);
+	router.get(
+		'/api/actor/get-all-actors',
+		actorController.handleGetAllActors
+	);
+	router.post(
+		'/api/actor/create-new-actor',
+		actorController.handleCreateNewActor
+	);
 	router.put('/api/actor/edit-actor', actorController.handleEditActor);
 	router.delete('/api/actor/delete-actor', actorController.handleDeleteActor);
 	router.get('/api/actor/get-search-actor', actorController.handleSearchActor);
@@ -46,7 +47,10 @@ const initWebRoutes = (app) => {
 		'/api/director/create-new-director',
 		directorController.handleCreateNewDirector
 	);
-	router.put('/api/director/edit-director', directorController.handleEditDirector);
+	router.put(
+		'/api/director/edit-director',
+		directorController.handleEditDirector
+	);
 	router.delete(
 		'/api/director/delete-director',
 		directorController.handleDeleteDirector
@@ -57,15 +61,27 @@ const initWebRoutes = (app) => {
 	);
 
 	// * Category
-	router.get('/api/genre/get-all-genre',checkUserJWT,checkUserPermission, genreController.handleGetAllGenres);
-	router.post('/api/genre/create-new-genre', genreController.handleCreateNewGenre);
+	router.get(
+		'/api/genre/get-all-genre',
+		genreController.handleGetAllGenres
+	);
+	router.post(
+		'/api/genre/create-new-genre',
+		genreController.handleCreateNewGenre
+	);
 	router.put('/api/genre/edit-genre', genreController.handleEditGenre);
 	router.delete('/api/genre/delete-genre', genreController.handleDeleteGenre);
 	router.get('/api/genre/get-search-genre', genreController.handleSearchGenre);
 
 	// * Movie
-	router.get('/api/movie/get-all-movies',checkUserJWT,checkUserPermission, movieController.handleGetAllMovies);
-	router.post('/api/movie/create-new-movie', movieController.handleCreateNewMovie);
+	router.get(
+		'/api/movie/get-all-movies',
+		movieController.handleGetAllMovies
+	);
+	router.post(
+		'/api/movie/create-new-movie',
+		movieController.handleCreateNewMovie
+	);
 	router.put('/api/movie/edit-movie', movieController.handleEditMovie);
 	router.delete('/api/movie/delete-movie', movieController.handleDeleteMovie);
 	router.get('/api/movie/get-search-movie', movieController.handleSearchMovie);
