@@ -13,7 +13,7 @@ const getAllMovies = (movieID) => {
 					where: { movieID: movieID },
 				});
 			}
-			
+
 			resolve(movies);
 		} catch (error) {
 			reject(error);
@@ -102,6 +102,8 @@ const createNewMovie = async (data) => {
 					thumbnail: movieData.thumbnail,
 					videoURL: movieData.videoURL,
 					html: movieData.html,
+					background: movieData.background,
+					imdb: movieData.imdb
 				});
 
 				const createdMovieID = createdMovie.movieID;
@@ -257,9 +259,11 @@ const editMovie = async (data) => {
 					movie.thumbnail = data.movie.thumbnail;
 					movie.videoURL = data.movie.videoURL;
 					movie.html = data.movie.html;
+					movie.background = data.movie.background;
+					movie.imdb = data.movie.imdb;
 					await editGenreMovie(data);
 					await editActorMovie(data);
-					await editDirectorMovie(data)
+					await editDirectorMovie(data);
 					await movie.save();
 					resolve({
 						errCode: 0,
@@ -368,7 +372,7 @@ const getAllDirectorsMovie = (movieID) => {
 const searchMovie = async (keyword) => {
 	try {
 		let movieSearch = '';
-		console.log(keyword)
+		console.log(keyword);
 
 		if (!keyword) {
 			movieSearch = await db.movie.findAll();
@@ -376,7 +380,7 @@ const searchMovie = async (keyword) => {
 			movieSearch = await db.movie.findAll({
 				where: {
 					title: {
-						[Op.substring]: `%${keyword}%`, 
+						[Op.substring]: `%${keyword}%`,
 					},
 				},
 			});
@@ -393,9 +397,8 @@ const searchMovie = async (keyword) => {
 };
 
 const countMovies = async () => {
-    return db.movie.count();
+	return db.movie.count();
 };
-
 
 module.exports = {
 	getAllMovies: getAllMovies,
@@ -406,5 +409,5 @@ module.exports = {
 	getAllActorsMovie: getAllActorsMovie,
 	getAllDirectorsMovie: getAllDirectorsMovie,
 	searchMovie: searchMovie,
-	countMovies: countMovies
+	countMovies: countMovies,
 };
