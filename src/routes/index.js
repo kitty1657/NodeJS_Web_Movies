@@ -11,6 +11,32 @@ const router = express.Router();
 
 const initWebRoutes = (app) => {
 	router.post('/api/login', userController.handleLogin);
+
+	router.get(
+		'/api/director/get-all-directors',
+		directorController.handleGetAllDirectors
+	);
+
+	router.get('/api/comment/get-all-comments', commentController.handleGetAllComments);
+	router.get('/api/comment/get-comment-by-movieID', commentController.handleGetCommentByMovieID)
+	
+	// * Country
+	router.get('/api/country/get-all-countries', countryController.hanldeGetAllCountries);
+
+	router.get('/api/movie/get-movies-by-Imdb', movieController.handleGetMovieByImdb)
+	router.get('/api/movie/get-movies-by-release', movieController.handleGetMovieByRelease)
+
+
+	router.get(
+		'/api/genre/get-all-genre',
+		genreController.handleGetAllGenres
+	);
+
+	router.get(
+		'/api/movie/get-all-movies',
+		movieController.handleGetAllMovies
+	);
+
 	router.all('*', checkUserJWT, checkUserPermission);
 
 	// * User
@@ -39,10 +65,7 @@ const initWebRoutes = (app) => {
 	router.get('/api/actor/get-search-actor', actorController.handleSearchActor);
 
 	// * Director
-	router.get(
-		'/api/director/get-all-directors',
-		directorController.handleGetAllDirectors
-	);
+	
 	router.post(
 		'/api/director/create-new-director',
 		directorController.handleCreateNewDirector
@@ -61,10 +84,7 @@ const initWebRoutes = (app) => {
 	);
 
 	// * Category
-	router.get(
-		'/api/genre/get-all-genre',
-		genreController.handleGetAllGenres
-	);
+	
 	router.post(
 		'/api/genre/create-new-genre',
 		genreController.handleCreateNewGenre
@@ -74,10 +94,7 @@ const initWebRoutes = (app) => {
 	router.get('/api/genre/get-search-genre', genreController.handleSearchGenre);
 
 	// * Movie
-	router.get(
-		'/api/movie/get-all-movies',
-		movieController.handleGetAllMovies
-	);
+	
 	router.post(
 		'/api/movie/create-new-movie',
 		movieController.handleCreateNewMovie
@@ -85,6 +102,7 @@ const initWebRoutes = (app) => {
 	router.put('/api/movie/edit-movie', movieController.handleEditMovie);
 	router.delete('/api/movie/delete-movie', movieController.handleDeleteMovie);
 	router.get('/api/movie/get-search-movie', movieController.handleSearchMovie);
+
 	// * Movie Count
 	router.get('/api/movies/count', movieController.handleGetMoviesCount);
 
@@ -106,13 +124,12 @@ const initWebRoutes = (app) => {
 		movieController.handleGetAllMovieDirectors
 	);
 
-	// * Country
-	router.get('/api/get-all-countries', countryController.hanldeGetAllCountries);
+	
 
 	// * Comment
-	router.get('/api/get-all-comments', commentController.handleGetAllComments);
+	
 	router.post(
-		'/api/create-new-comment',
+		'/api/comment/create-new-comment',
 		commentController.handleCreateNewComment
 	);
 

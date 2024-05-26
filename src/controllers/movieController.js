@@ -10,9 +10,6 @@ const handleGetAllMovies = async (req, res) => {
     });
   }
 
-  // Cookies that have not been signed
-  // console.log('Cookies: ', req.cookies)
-
   let movies = await movieService.getAllMovies(id);
   return res.status(200).json({
     errCode: 0,
@@ -129,6 +126,22 @@ const handleGetMoviesCount = async (req, res) => {
   }
 };
 
+const handleGetMovieByImdb = async(req,res)=>{
+  const movies = await movieService.getMovieByImdb()
+  return res.status(200).json({
+    errCode: 0,
+    movies
+  })
+}
+
+const handleGetMovieByRelease = async(req,res)=>{
+  const movies = await movieService.getMovieByRelease()
+  return res.status(200).json({
+    errCode: 0,
+    movies
+  })
+}
+
 module.exports = {
   handleGetAllMovies: handleGetAllMovies,
   handleCreateNewMovie: handleCreateNewMovie,
@@ -139,4 +152,6 @@ module.exports = {
   handleGetAllMovieDirectors: handleGetAllMovieDirectors,
   handleSearchMovie: handleSearchMovie,
   handleGetMoviesCount: handleGetMoviesCount,
+  handleGetMovieByImdb: handleGetMovieByImdb,
+  handleGetMovieByRelease: handleGetMovieByRelease
 };

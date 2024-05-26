@@ -1,4 +1,4 @@
-import { Op } from 'sequelize';
+import { Op, where } from 'sequelize';
 import db from '../models/index';
 
 const getAllMovies = (movieID) => {
@@ -103,7 +103,7 @@ const createNewMovie = async (data) => {
 					videoURL: movieData.videoURL,
 					html: movieData.html,
 					background: movieData.background,
-					imdb: movieData.imdb
+					imdb: movieData.imdb,
 				});
 
 				const createdMovieID = createdMovie.movieID;
@@ -400,8 +400,36 @@ const countMovies = async () => {
 	return db.movie.count();
 };
 
+const getMovieByImdb = async () => {
+	try {
+		let movies = '';
+		movies = await db.movie.findAll({
+			where: {
+				imdb: { [Op.gte]: 7.5 },
+			},
+		});
+		return movies;
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+const getMovieByRelease = async () => {
+	try {
+		const movies = await db.movie.findAll({
+			order: [['release', 'DESC']], 
+			limit: 5, 
+		});
+		return movies;
+	} catch (error) {
+		console.log(error);
+		throw error;
+	}
+};
+
 module.exports = {
 	getAllMovies: getAllMovies,
+	getMovieByImdb: getMovieByImdb,
 	createNewMovie: createNewMovie,
 	editMovie: editMovie,
 	deleteMovie: deleteMovie,
@@ -410,4 +438,5 @@ module.exports = {
 	getAllDirectorsMovie: getAllDirectorsMovie,
 	searchMovie: searchMovie,
 	countMovies: countMovies,
+	getMovieByRelease:getMovieByRelease
 };

@@ -1,3 +1,4 @@
+const { where } = require('sequelize');
 const db = require('../models');
 
 const getAllComments = (commentID) => {
@@ -68,7 +69,21 @@ const createComment = (data) => {
 	});
 };
 
+const getCommentByMovieID = async(movieID)=>{
+	try {
+		let comments = []
+		comments = await db.comment.findAll({
+			where: {movieID: movieID}
+		})
+		console.log(comments)
+		return comments
+	} catch (error) {
+		console.log(error)
+	}
+}
+
 module.exports = {
 	getAllComments: getAllComments,
-	createComment: createComment
+	createComment: createComment,
+	getCommentByMovieID: getCommentByMovieID
 };
