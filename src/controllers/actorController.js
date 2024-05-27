@@ -43,9 +43,27 @@ const handleDeleteActor = async(req,res)=>{
     return res.status(200).json(message)
 }
 
+const handleSearchActor = async (req, res) => {
+    try {
+        const keywords = req.query.keywords;
+        const actor = await actorService.searchActor(keywords);
+
+        return res.status(200).json({
+            errCode: 0,
+            actor
+        });
+    } catch (error) {
+        return res.status(500).json({
+            errorCode: 500,
+            errorMessage: 'Internal Server error',
+        });
+    }
+};
+
 module.exports = {
     handleGetAllActors: handleGetAllActors,
     handleCreateNewActor: handleCreateNewActor,
     handleEditActor: handleEditActor,
-    handleDeleteActor: handleDeleteActor
+    handleDeleteActor: handleDeleteActor,
+    handleSearchActor: handleSearchActor
 }

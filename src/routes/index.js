@@ -1,61 +1,138 @@
-import express from "express"
+import express from 'express';
 import userController from '../controllers/userController';
 import actorController from '../controllers/actorController';
 import genreController from '../controllers/genreController';
 import directorController from '../controllers/directorController';
 import movieController from '../controllers/movieController';
 import countryController from '../controllers/countryController';
+import commentController from '../controllers/commentController';
+import { checkUserJWT, checkUserPermission } from '../middleware/JWTAction';
 const router = express.Router();
 
-const initWebRoutes = (app)=>{
-    router.post('/api/login',userController.handleLogin)
+const initWebRoutes = (app) => {
+	router.post('/api/login', userController.handleLogin);
 
-    // * User
-    router.get('/api/get-all-users',userController.handleGetAllUsers)
-    router.post('/api/create-new-user',userController.handleCreateNewUser)
-    router.put('/api/edit-user',userController.handleEditUser)
-    router.delete('/api/delete-user',userController.handleDeleteUser)
-    router.get('api/user-role',userController.handleGetAllUserRole)
+	router.get(
+		'/api/director/get-all-directors',
+		directorController.handleGetAllDirectors
+	);
 
-    // * Actor
-    router.get('/api/get-all-actors',actorController.handleGetAllActors)
-    router.post('/api/create-new-actor',actorController.handleCreateNewActor)
-    router.put('/api/edit-actor',actorController.handleEditActor)
-    router.delete('/api/delete-actor',actorController.handleDeleteActor)
+	router.get(
+		'/api/comment/get-all-comments',
+		commentController.handleGetAllComments
+	);
+	router.get(
+		'/api/comment/get-comment-by-movieID',
+		commentController.handleGetCommentByMovieID
+	);
 
-    // * Director
-    router.get('/api/get-all-directors',directorController.handleGetAllDirectors)
-    router.post('/api/create-new-director',directorController.handleCreateNewDirector)
-    router.put('/api/edit-director',directorController.handleEditDirector)
-    router.delete('/api/delete-director',directorController.handleDeleteDirector)
+	// * Country
+	router.get(
+		'/api/country/get-all-countries',
+		countryController.hanldeGetAllCountries
+	);
 
-    // * Category
-    router.get('/api/get-all-genre',genreController.handleGetAllGenres)
-    router.post('/api/create-new-genre',genreController.handleCreateNewGenre)
-    router.put('/api/edit-genre',genreController.handleEditGenre)
-    router.delete('/api/delete-genre',genreController.handleDeleteGenre)
-    router.get('/api/get-search-genre',genreController.handleSearchGenre)
+	router.get(
+		'/api/movie/get-movies-by-Imdb',
+		movieController.handleGetMovieByImdb
+	);
+	router.get(
+		'/api/movie/get-movies-by-release',
+		movieController.handleGetMovieByRelease
+	);
 
-    // * Movie
-    router.get('/api/get-all-movies',movieController.handleGetAllMovies)
-    router.post('/api/create-new-movie',movieController.handleCreateNewMovie)
-    router.put('/api/edit-movie',movieController.handleEditMovie)
-    router.delete('/api/delete-movie',movieController.handleDeleteMovie)
+	router.get('/api/genre/get-all-genre', genreController.handleGetAllGenres);
 
-    // * Movie Genre
-    router.get('/api/get-all-moviegenres',movieController.handleGetAllMovieGenres)
+	router.get('/api/movie/get-all-movies', movieController.handleGetAllMovies);
 
-    // * Movie Actor
-    router.get('/api/get-all-movieactors',movieController.handleGetAllMovieActors)
+	// * Movie Genre
+	router.get(
+		'/api/get-all-moviegenres',
+		movieController.handleGetAllMovieGenres
+	);
 
-    // * Movie Director
-    router.get('/api/get-all-moviedirectors',movieController.handleGetAllMovieDirectors)
+	// * Movie Director
+	router.get(
+		'/api/get-all-moviedirectors',
+		movieController.handleGetAllMovieDirectors
+	);
+
+	// * Movie Actor
+	router.get(
+		'/api/get-all-movieactors',
+		movieController.handleGetAllMovieActors
+	);
+
+	router.get('/api/actor/get-all-actors', actorController.handleGetAllActors);
 
 
-    // * Country
-    router.get('/api/get-all-countries',countryController.hanldeGetAllCountries)
+	router.all('*', checkUserJWT, checkUserPermission);
 
-    return app.use('/',router);
-}
+	// * User
+	router.get('/api/user/get-all-users', userController.handleGetAllUsers);
+	router.post('/api/user/create-new-user', userController.handleCreateNewUser);
+	router.put('/api/user/edit-user', userController.handleEditUser);
+	router.delete('/api/user/delete-user', userController.handleDeleteUser);
+	router.get('api/user-role', userController.handleGetAllUserRole);
+	router.get('/api/user/get-search-user', userController.handleSearchUser);
+	router.get('/api/user/count', userController.handleGetUserCount);
+
+	// * Actor
+	router.post(
+		'/api/actor/create-new-actor',
+		actorController.handleCreateNewActor
+	);
+	router.put('/api/actor/edit-actor', actorController.handleEditActor);
+	router.delete('/api/actor/delete-actor', actorController.handleDeleteActor);
+	router.get('/api/actor/get-search-actor', actorController.handleSearchActor);
+
+	// * Director
+	router.post(
+		'/api/director/create-new-director',
+		directorController.handleCreateNewDirector
+	);
+	router.put(
+		'/api/director/edit-director',
+		directorController.handleEditDirector
+	);
+	router.delete(
+		'/api/director/delete-director',
+		directorController.handleDeleteDirector
+	);
+	router.get(
+		'/api/director/get-search-director',
+		directorController.handleSearchDirector
+	);
+
+	// * Category
+	router.post(
+		'/api/genre/create-new-genre',
+		genreController.handleCreateNewGenre
+	);
+	router.put('/api/genre/edit-genre', genreController.handleEditGenre);
+	router.delete('/api/genre/delete-genre', genreController.handleDeleteGenre);
+	router.get('/api/genre/get-search-genre', genreController.handleSearchGenre);
+
+	// * Movie
+	router.post(
+		'/api/movie/create-new-movie',
+		movieController.handleCreateNewMovie
+	);
+	router.put('/api/movie/edit-movie', movieController.handleEditMovie);
+	router.delete('/api/movie/delete-movie', movieController.handleDeleteMovie);
+	router.get('/api/movie/get-search-movie', movieController.handleSearchMovie);
+
+	// * Movie Count
+	router.get('/api/movies/count', movieController.handleGetMoviesCount);
+
+	// * Comment
+
+	router.post(
+		'/api/comment/create-new-comment',
+		commentController.handleCreateNewComment
+	);
+
+	return app.use('/', router);
+};
 
 module.exports = initWebRoutes;

@@ -20,7 +20,9 @@ module.exports = (sequelize, DataTypes) => {
 			duration: DataTypes.INTEGER,
             thumbnail: DataTypes.STRING,
             videoURL : DataTypes.STRING,
-            html: DataTypes.STRING
+            html: DataTypes.STRING,
+			background: DataTypes.TEXT('long'),
+			imdb: DataTypes.FLOAT
         },
 		{
 			sequelize,

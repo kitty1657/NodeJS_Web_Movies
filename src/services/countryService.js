@@ -1,15 +1,15 @@
 import db from '../models/index';
 
-const getAllCountries = (countryID) => {
+const getAllCountries = (id) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			let countries = '';
-			if (countryID === 'ALL') {
+			if (id === 'ALL') {
 				countries = await db.country.findAll();
 			}
-			if (countryID && countryID !== 'ALL') {
+			if (id && id !== 'ALL') {
 				countries = await db.country.findOne({
-					where: { countryID: countryID },
+					where: { countryID: id },
 				});
 			}
 			resolve(countries);

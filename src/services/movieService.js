@@ -1,3 +1,4 @@
+import { Op, where } from 'sequelize';
 import db from '../models/index';
 
 const getAllMovies = (movieID) => {
@@ -12,6 +13,7 @@ const getAllMovies = (movieID) => {
 					where: { movieID: movieID },
 				});
 			}
+
 			resolve(movies);
 		} catch (error) {
 			reject(error);
@@ -100,6 +102,8 @@ const createNewMovie = async (data) => {
 					thumbnail: movieData.thumbnail,
 					videoURL: movieData.videoURL,
 					html: movieData.html,
+					background: movieData.background,
+					imdb: movieData.imdb,
 				});
 
 				const createdMovieID = createdMovie.movieID;
@@ -255,9 +259,11 @@ const editMovie = async (data) => {
 					movie.thumbnail = data.movie.thumbnail;
 					movie.videoURL = data.movie.videoURL;
 					movie.html = data.movie.html;
+					movie.background = data.movie.background;
+					movie.imdb = data.movie.imdb;
 					await editGenreMovie(data);
 					await editActorMovie(data);
-					await editDirectorMovie(data)
+					await editDirectorMovie(data);
 					await movie.save();
 					resolve({
 						errCode: 0,
@@ -291,6 +297,9 @@ const deleteMovie = (movieID) => {
 			where: { movieID: movieID },
 		});
 		await db.movieactor.destroy({
+			where: { movieID: movieID },
+		});
+		await db.moviedirector.destroy({
 			where: { movieID: movieID },
 		});
 		await db.movie.destroy({
@@ -360,12 +369,74 @@ const getAllDirectorsMovie = (movieID) => {
 	});
 };
 
+const searchMovie = async (keyword) => {
+	try {
+		let movieSearch = '';
+		console.log(keyword);
+
+		if (!keyword) {
+			movieSearch = await db.movie.findAll();
+		} else {
+			movieSearch = await db.movie.findAll({
+				where: {
+					title: {
+						[Op.substring]: `%${keyword}%`,
+					},
+				},
+			});
+		}
+
+		return {
+			errCode: 0,
+			errMessage: 'Search Success',
+			movieSearch,
+		};
+	} catch (error) {
+		throw error;
+	}
+};
+
+const countMovies = async () => {
+	return db.movie.count();
+};
+
+const getMovieByImdb = async () => {
+	try {
+		let movies = '';
+		movies = await db.movie.findAll({
+			where: {
+				imdb: { [Op.gte]: 7.5 },
+			},
+		});
+		return movies;
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+const getMovieByRelease = async () => {
+	try {
+		const movies = await db.movie.findAll({
+			order: [['release', 'DESC']], 
+			limit: 5, 
+		});
+		return movies;
+	} catch (error) {
+		console.log(error);
+		throw error;
+	}
+};
+
 module.exports = {
 	getAllMovies: getAllMovies,
+	getMovieByImdb: getMovieByImdb,
 	createNewMovie: createNewMovie,
 	editMovie: editMovie,
 	deleteMovie: deleteMovie,
 	getAllGenresMovie: getAllGenresMovie,
 	getAllActorsMovie: getAllActorsMovie,
 	getAllDirectorsMovie: getAllDirectorsMovie,
+	searchMovie: searchMovie,
+	countMovies: countMovies,
+	getMovieByRelease:getMovieByRelease
 };

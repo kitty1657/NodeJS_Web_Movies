@@ -1,3 +1,4 @@
+import { Op, where } from 'sequelize';
 import db from '../models/index';
 
 const getAllActors = (actorID) => {
@@ -17,19 +18,19 @@ const getAllActors = (actorID) => {
 			reject(error);
 		}
 	});
-};  
+};
 
-const createNewActor = async (data) => {
+const createNewActor = (data) => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			const existingActor = await db.actor.findOne({
 				where: { name: data.actor.name },
 			});
-			console.log(data.actor)
+			console.log(data.actor);
 			if (existingActor) {
 				resolve({
 					errCode: 1,
-					ereMessage: 'Actor name already exists',
+					ereMessage: 'Actor already exists',
 				});
 			} else {
 				const createdActor = await db.actor.create({
@@ -37,7 +38,7 @@ const createNewActor = async (data) => {
 					birthdate: data.actor.birthdate,
 					nationality: data.actor.nationality,
 					biography: data.actor.biography,
-					image: data.actor.image
+					image: data.actor.image,
 				});
 				resolve({
 					errCode: 0,
@@ -54,7 +55,7 @@ const createNewActor = async (data) => {
 const editActor = async (data) => {
 	return new Promise(async (resolve, reject) => {
 		try {
-			console.log(data.actor.image)
+			console.log(data.actor.image);
 			if (!data.actor.actorID) {
 				resolve({
 					errCode: 2,
@@ -65,7 +66,7 @@ const editActor = async (data) => {
 					where: { actorID: data.actor.actorID },
 					raw: false,
 				});
-				
+
 				if (actor) {
 					actor.name = data.actor.name;
 					actor.birthdate = data.actor.birthdate;
@@ -91,29 +92,64 @@ const editActor = async (data) => {
 };
 
 const deleteActor = (actorID) => {
-	return new Promise(async(resolve, reject) => {
+	return new Promise(async (resolve, reject) => {
 		let actor = await db.actor.findOne({
-			where: {actorID: actorID}
-		})
-		if(!actor){
+			where: { actorID: actorID },
+		});
+		if (!actor) {
 			resolve({
 				errCode: 2,
-				errMessage: `The Actor isn't exist`
-			})
+				errMessage: `The Actor isn't exist`,
+			});
 		}
 		await db.actor.destroy({
-			where: {actorID: actorID}
-		})
+			where: { actorID: actorID },
+		});
 		resolve({
 			errCode: 0,
-			errMessage: 'Delete Success'
-		})
+			errMessage: 'Delete Success',
+		});
 	});
+};
+
+const searchActor = async (keyword) => {
+	try {
+		let actorSearch = '';
+		if (!keyword) {
+			actorSearch = await db.actor.findAll();
+		} else {
+			actorSearch = await db.actor.findAll({
+				where: {
+					[Op.or]: [
+						{
+							name: {
+								[Op.substring]: `%${keyword}%`,
+							},
+						},
+						{
+							nationality: {
+								[Op.substring]: `%${keyword}%`,
+							},
+						},
+					],
+				},
+			});
+		}
+		console.log(keyword);
+		return {
+			errCode: 0,
+			errMessage: 'Search Success',
+			actorSearch,
+		};
+	} catch (error) {
+		throw error;
+	}
 };
 
 module.exports = {
 	getAllActors: getAllActors,
 	createNewActor: createNewActor,
 	editActor: editActor,
-	deleteActor: deleteActor
+	deleteActor: deleteActor,
+	searchActor: searchActor,
 };
